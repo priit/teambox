@@ -4,10 +4,12 @@ require 'haml/template'
 require 'sass'
 require 'sass/plugin'
 
-Sass::Plugin.options[:template_location] = {
-  "#{Rails.root}/app/styles" => Rails.configuration.heroku??
-    "#{Rails.root}/tmp/stylesheets" : "#{Rails.root}/public/stylesheets"
-}
+
+template_location = "#{Rails.root}/app/styles"
+css_location      = Rails.configuration.heroku? ? "#{Rails.root}/tmp/stylesheets" : "#{Rails.root}/public/stylesheets"
+
+Sass::Plugin.add_template_location(template_location, css_location)
+
 
 if Rails.configuration.heroku?
   # add Rack middleware to serve compiled stylesheets from "tmp/stylesheets"
